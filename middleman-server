@@ -1,0 +1,39 @@
+#!/bin/bash
+# {author: Paulo Jeronimo; email: paulojeronimo@gmail.com; twitter: @paulojeronimo}
+set +x
+
+BASEDIR=`cd "$(dirname "$0")"; echo -n $PWD`
+LOCAL=.middleman-server
+OP=$1
+
+cd $BASEDIR
+
+cat > $LOCAL <<'EOF'
+cd /vagrant
+
+echo "Instalando (ou verificando) as gems necessárias ..."
+bundle
+
+echo "Executando o servidor do Middleman através bundle ..."
+bundle exec middleman server
+EOF
+
+chmod +x $LOCAL
+
+if [ $USER = vagrant ]
+then
+    bash $BASEDIR/$LOCAL
+else
+    BASEDIR=/vagrant/`basename "$BASEDIR"`
+    if [ "$OP" = "stop" ]
+    then
+        echo "Matando processos ruby em execução na box ..."
+        vagrant ssh -c 'pkill ruby'
+    else
+        echo "Solicitando a execução do Middleman para o teu projeto ..."
+        vagrant ssh -c $BASEDIR/$LOCAL
+    fi
+fi
+
+echo "Removendo o script temporário ($BASEDIR/$LOCAL) ..."
+rm -f $LOCAL

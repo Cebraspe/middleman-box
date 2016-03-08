@@ -1,0 +1,44 @@
+#!/bin/bash
+# {author: Paulo Jeronimo; email: paulojeronimo@gmail.com; twitter: @paulojeronimo}
+#
+# Script para provisionamento de um ambiente Fedora 23
+# Utilizado para instalar bibliotecas e dependências necessárias a execução das ferramentas Asciidoctor e Middleman
+set +x
+
+# Para selecionar o mirror mais rápido:
+#f=/etc/dnf/dnf.conf
+#grep -q fatestmirror $f || echo -e 'fatestmirror=true\nminrate=6000k' | sudo tee -a $f
+
+# Para selecionar especificamente o mirror http://fedora.c3sl.ufpr.br:
+for f in fedora fedora-updates
+do
+    echo "Configurando o arquivo /etc/yum.repos.d/${f}.repo ..."
+    sudo sed '
+        s,^\(metalink=\),#\1,g
+        s,^#\(baseurl=\)http://download.fedoraproject.org/pub/fedora,\1http://fedora.c3sl.ufpr.br,g
+    ' -i /etc/yum.repos.d/${f}.repo
+done 
+
+echo "Instalando os pacotes necessários para a execução de um projeto Middleman ..."
+sudo dnf --best --allowerasing -y install \
+  gcc-c++ \
+  make \
+  ruby \
+  ruby-devel \
+  libxml2-devel \
+  libxslt-devel \
+  findutils \
+  git \
+  redhat-rpm-config \
+  nodejs
+
+echo "Instalando o bundler, utilizado para gerenciar as dependências de um projeto Middleman ..."
+gem install bundler
+
+# Se esse script estiver sendo executado pelo Vagrant, manda executar o servidor Middleman
+if [ $USER = vagrant ]
+then
+    middleman_server=/vagrant/`basename "$1"`/middleman-server
+    echo "Iniciando o Middleman através do script $middleman_server ..."
+    $middleman_server
+fi

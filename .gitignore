@@ -1,0 +1,4 @@
+.vagrant
+README.*
+!README.md
+.middleman-server
