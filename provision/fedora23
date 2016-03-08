@@ -5,6 +5,8 @@
 # Utilizado para instalar bibliotecas e dependências necessárias a execução das ferramentas Asciidoctor e Middleman
 set +x
 
+BOXNAME=`basename "$1"`
+
 # Para selecionar o mirror mais rápido:
 #f=/etc/dnf/dnf.conf
 #grep -q fatestmirror $f || echo -e 'fatestmirror=true\nminrate=6000k' | sudo tee -a $f
@@ -32,13 +34,20 @@ sudo dnf --best --allowerasing -y install \
   redhat-rpm-config \
   nodejs
 
+if [ $USER = vagrant ]
+then
+    f=/vagrant/.${BOXNAME}/provision/fedora23
+    [ -f $f ] && $f
+fi
+
 echo "Instalando o bundler, utilizado para gerenciar as dependências de um projeto Middleman ..."
 gem install bundler
 
 # Se esse script estiver sendo executado pelo Vagrant, manda executar o servidor Middleman
 if [ $USER = vagrant ]
 then
-    middleman_server=/vagrant/`basename "$1"`/middleman-server
+    middleman_server=/vagrant/.${BOXNAME}/middleman-server
+    [ -f $middleman_server ] || middleman_server=/vagrant/${BOXNAME}/middleman-server
     echo "Iniciando o Middleman através do script $middleman_server ..."
     $middleman_server
 fi

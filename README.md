@@ -53,5 +53,5 @@ Toda vez que o servidor middleman for interrompido dentro da box, você poderá 
 ## Sites Middleman que foram testados com este projeto
 
 * http://github.com/paulojeronimo/middleman-asciidoc-example
-
+* http://github.com/paulojeronimo/middleman-guides
 

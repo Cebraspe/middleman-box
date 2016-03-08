@@ -8,6 +8,19 @@ OP=$1
 
 cd $BASEDIR
 
+f=../.`basename "$BASEDIR"`/middleman-server
+if [ -f "$f" ]
+then
+    echo "Delegando execução para \"$f\" ..."
+    case $OSTYPE in
+        cygwin) VAGRANT_CWD=`cygpath -w "$BASEDIR"`;;
+        *) VAGRANT_CWD=$BASEDIR;;
+    esac
+    export VAGRANT_CWD
+    $f "$@"
+    exit
+fi
+
 cat > $LOCAL <<'EOF'
 cd /vagrant
 
