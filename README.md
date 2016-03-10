@@ -53,7 +53,11 @@ Para construir uma box que possa ser utilizada dentro de teu projeto Middleman, 
     cd middleman-box
     vagrant up
 
-O teu projeto Middleman é colocado em execução na box provisionada, e acessível pela porta _URL default_ http://localhost:4567, através do script [middleman-server](middleman-server). Esse script é executado ao final do provisionamento. Como o servidor do Middleman estará em execução, você notará que o shell ficará preso na execução do comando `vagrant up`. Para interromper esse servidor e, consequentemente, a execução da aplicação, você precisará digitar um `<Ctrl+C>`. Em seguida, deverá executar o comando `./middleman-server stop`.
+O teu projeto Middleman pode ser colocado em execução na box provisionada, e acessível pela porta _URL default_ http://localhost:4567, através do seguinte comando:
+
+    ./middleman-server
+
+O script [middleman-server](middleman-server) também pode ser executado automaticamente ao final do processo de provisionamento, se o valor para o parâmetro de configuração `executa_servidor_midlleman` for `true`. Nesse caso, como o servidor do Middleman estará em execução, você notará que o shell ficará preso na execução do comando `vagrant up`. Para interromper esse servidor e, consequentemente, a execução da aplicação, você precisará digitar um `<Ctrl+C>`. Em seguida, deverá executar o comando `./middleman-server stop`.
 
 Toda vez que o servidor middleman for interrompido dentro da box, você poderá reexecutar esse script (`middleman-server`) para colocar o Middleman em execução novamente.
 
