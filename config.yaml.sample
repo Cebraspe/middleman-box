@@ -1,3 +1,7 @@
 # Parâmetros de configuração para o ambiente
+# Os valores neste arquivo de exemplo são os "default"
 
-memoria_vm: "1024"
+vm_box: boxcutter/fedora23
+vm_provision: provision/fedora23
+memoria_vm: 512
+executa_servidor_middleman: false

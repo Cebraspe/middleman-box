@@ -2,8 +2,10 @@
 # vi: set ft=ruby ts=2 sw=2 expandtab:
 require "yaml"
 
-config = "config.yaml"
-params = if File.exists?(config) then YAML::load_file(config) else {} end
+# Lê o arquivo de configuração (caso exista)
+params = if File.exists?("config.yaml") then YAML::load_file("config.yaml") else {} end
+
+# Ajusta valores default para os parâmetros de configuração
 params_vm_box = params["vm_box"] || "boxcutter/fedora23"
 params_vm_provision = params["vm_provision"] || "provision/fedora23"
 params_memoria_vm = params["memoria_vm"] || "512"
@@ -34,7 +36,9 @@ Vagrant.configure(2) do |config|
   # Chama o script para provisionar o sistema operacional
   # O script de provisionamento recebe o caminho até este Vagrantfile
   #   e utiliza essa informação para saber onde localizar scripts (relativos a esse caminho)
-  config.vm.provision "shell", path: params_vm_provision, args: ENV['PWD'], privileged: false
+  provision_args = [ENV['PWD']]
+  provision_args.push('--executa-servidor-middleman') if params["executa_servidor_middleman"]
+  config.vm.provision "shell", path: params_vm_provision, args: provision_args, privileged: false
 
   # Configura o plugin vagrant-vbguest (necessário instalá-lo) para não atualizar a máquina
   config.vbguest.auto_update = false

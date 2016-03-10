@@ -2,6 +2,15 @@
 
 Este projeto pode ser utilizado como um sub-módulo de qualquer outro que necessite de uma [box Vagrant](https://www.vagrantup.com/docs/boxes.html) provisionada para a execução do [Middleman](https://middlemanapp.com/).
 
+## Sites Middleman testados com este projeto
+
+*   http://github.com/paulojeronimo/atomic-site
+    * Fork do [projeto](https://github.com/projectatomic/atomic-site) que cria o [site do Project Atomic](http://www.projectatomic.io/)
+*   http://github.com/paulojeronimo/middleman-guides
+    * Fork do [projeto](https://github.com/middleman/middleman-guides) que cria o [site do Middleman](https://middlemanapp.com/)
+*   http://github.com/paulojeronimo/middleman-asciidoc-example
+    * Fork do [projeto da OpenDevise que demonstra a integração entre o Middleman e o AsciiDoctor](https://github.com/opendevise/middleman-asciidoc-example)
+
 ## Pré-requisitos
 
 ### Instalação do Cygwin (se estiver utilizando o Windows)
@@ -50,8 +59,4 @@ Toda vez que o servidor middleman for interrompido dentro da box, você poderá 
 
 ### No Ubuntu (TODO)
 
-## Sites Middleman que foram testados com este projeto
-
-* http://github.com/paulojeronimo/middleman-asciidoc-example
-* http://github.com/paulojeronimo/middleman-guides
 

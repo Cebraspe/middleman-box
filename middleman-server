@@ -3,33 +3,23 @@
 set +x
 
 BASEDIR=`cd "$(dirname "$0")"; echo -n $PWD`
-LOCAL=.middleman-server
+LOCAL=../.`basename "$BASEDIR"`/middleman-server
 OP=$1
 
 cd $BASEDIR
 
-f=../.`basename "$BASEDIR"`/middleman-server
-if [ -f "$f" ]
+local_created=false
+if [ ! -f $LOCAL ]
 then
-    echo "Delegando execução para \"$f\" ..."
-    case $OSTYPE in
-        cygwin) VAGRANT_CWD=`cygpath -w "$BASEDIR"`;;
-        *) VAGRANT_CWD=$BASEDIR;;
-    esac
-    export VAGRANT_CWD
-    $f "$@"
-    exit
-fi
-
-cat > $LOCAL <<'EOF'
+    mkdir -p "`dirname "$LOCAL"`"
+    cat > $LOCAL <<'EOF'
 cd /vagrant
-
-echo "Instalando (ou verificando) as gems necessárias ..."
-bundle
-
-echo "Executando o servidor do Middleman através bundle ..."
+set -x
+bundle install
 bundle exec middleman server
 EOF
+    local_created=true
+fi
 
 chmod +x $LOCAL
 
@@ -37,7 +27,8 @@ if [ $USER = vagrant ]
 then
     bash $BASEDIR/$LOCAL
 else
-    BASEDIR=/vagrant/`basename "$BASEDIR"`
+    BASEDIR=/vagrant/.`basename "$BASEDIR"`
+    LOCAL=`basename "$LOCAL"`
     if [ "$OP" = "stop" ]
     then
         echo "Matando processos ruby em execução na box ..."
@@ -48,5 +39,8 @@ else
     fi
 fi
 
-echo "Removendo o script temporário ($BASEDIR/$LOCAL) ..."
-rm -f $LOCAL
+if $local_created
+then
+    echo "Removendo o script temporário ($BASEDIR/$LOCAL) ..."
+    rm -f $LOCAL
+fi
