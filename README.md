@@ -1,14 +1,16 @@
-# Box vagrant para execução de um projeto Middleman
+# Box vagrant para a execução de sites Middleman
 
-Este projeto pode ser utilizado como um sub-módulo de qualquer outro que necessite de uma [box Vagrant](https://www.vagrantup.com/docs/boxes.html) provisionada para a execução do [Middleman](https://middlemanapp.com/).
+Este projeto pode ser utilizado como um sub-módulo de qualquer outro que necessite de uma [box Vagrant](https://www.vagrantup.com/docs/boxes.html) provisionada para construção e execução de sites criados com o uso do [Middleman](https://middlemanapp.com/).
 
-## Sites Middleman testados com este projeto
+## Sites que já foram executados com o auxílio deste projeto
 
-*   http://github.com/paulojeronimo/atomic-site
+*   10/Mar/2016 - http://github.com/paulojeronimo/opendevise.io
+    * Fork do [projeto](https://github.com/opendevise/opendevise.io) que cria o [site da OpenDevise](http://opendevise.io/)
+*   10/Mar/2016 - http://github.com/paulojeronimo/atomic-site
     * Fork do [projeto](https://github.com/projectatomic/atomic-site) que cria o [site do Project Atomic](http://www.projectatomic.io/)
-*   http://github.com/paulojeronimo/middleman-guides
+*   09/Mar/2016 - http://github.com/paulojeronimo/middleman-guides
     * Fork do [projeto](https://github.com/middleman/middleman-guides) que cria o [site do Middleman](https://middlemanapp.com/)
-*   http://github.com/paulojeronimo/middleman-asciidoc-example
+*   08/Mar/2016 - http://github.com/paulojeronimo/middleman-asciidoc-example
     * Fork do [projeto da OpenDevise que demonstra a integração entre o Middleman e o AsciiDoctor](https://github.com/opendevise/middleman-asciidoc-example)
 
 ## Pré-requisitos
