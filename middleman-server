@@ -8,20 +8,29 @@ OP=$1
 
 cd $BASEDIR
 
-local_created=false
 if [ ! -f $LOCAL ]
 then
-    mkdir -p "`dirname "$LOCAL"`"
-    cat > $LOCAL <<'EOF'
+    tmp_middleman_server=/tmp/middleman_server.$$
+    cat > $tmp_middleman_server <<'EOF'
 cd /vagrant
 set -x
 bundle install
 bundle exec middleman server
 EOF
-    local_created=true
+    if [ $USER = vagrant ]
+    then
+        mkdir -p "`dirname "$LOCAL"`"
+        mv $tmp_middleman_server $LOCAL
+        chmod +x $LOCAL
+    else
+        cat $tmp_middleman_server | vagrant ssh -c "
+d=/vagrant/.`basename "$BASEDIR"`
+mkdir \$d && cd \$d
+cat - > middleman-server
+chmod +x middleman-server
+        "
+    fi
 fi
-
-chmod +x $LOCAL
 
 if [ $USER = vagrant ]
 then
@@ -37,10 +46,4 @@ else
         echo "Solicitando a execução do Middleman para o teu projeto ..."
         vagrant ssh -c $BASEDIR/$LOCAL
     fi
-fi
-
-if $local_created
-then
-    echo "Removendo o script temporário ($BASEDIR/$LOCAL) ..."
-    rm -f $LOCAL
 fi
