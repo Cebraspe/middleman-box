@@ -61,8 +61,48 @@ O teu projeto Middleman pode ser colocado em execução na box provisionada, e a
 
 O script [middleman-server](middleman-server) também pode ser executado automaticamente ao final do processo de provisionamento, se o valor para o parâmetro de configuração `executa_servidor_midlleman` for `true`. Nesse caso, como o servidor do Middleman estará em execução, você notará que o shell ficará preso na execução do comando `vagrant up`. Para interromper esse servidor e, consequentemente, a execução da aplicação, você precisará digitar um `<Ctrl+C>`. Em seguida, deverá executar o comando `./middleman-server stop`.
 
-Toda vez que o servidor middleman for interrompido dentro da box, você poderá reexecutar esse script (`middleman-server`) para colocar o Middleman em execução novamente.
+Toda vez que o servidor Middleman for interrompido dentro da box, você poderá reexecutar esse script (`middleman-server`) para colocar o Middleman em execução novamente.
 
 ### No Ubuntu (TODO)
 
+## Criação de um novo projeto Middleman
+
+Os passos a seguir exemplificam como este projeto pode ser utilizado na criação de um novo site que será construído com a utilização do Middleman.
+
+### Crie um diretório vazio para o teu novo site Middleman e vá para dentro dele
+
+    mkdir meu-novo-site-middleman && cd $_
+
+### Clone o projeto middleman-box
+
+    middleman_box=https://github.com/paulojeronimo/middleman-box
+    git clone $middleman_box
+
+### Construa a box Vagrant
+
+    cd `basename $middleman_box`
+    vagrant up
+
+### Acesse a box criada via SSH
+
+    vagrant ssh
+
+### Instale o Middleman
+
+    gem install middleman
+
+### Crie o teu novo projeto e mova seu conteúdo para o diretório /vagrant
+
+    middleman init meu-novo-site-middleman
+    rsync -av meu-novo-site-middleman/ /vagrant/
+    rm -rf meu-novo-site-middleman
+
+### Vá para o diretório /vagrant e inicie o servidor Middleman
+
+    cd /vagrant
+    bundle exec middleman server
+
+### Acesse a URL do teu novo site e comece a editá-lo
+
+Abra a URL http://localhost:4567 em teu browser. Edite os arquivos de teu novo site acessando o diretório `meu-novo-site-middleman` (criado no teu HOST).
 
